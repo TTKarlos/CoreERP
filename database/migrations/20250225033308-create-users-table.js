@@ -37,6 +37,10 @@ module.exports = {
         allowNull: false,
         defaultValue: 'User'
       },
+      image: {
+        type: Sequelize.STRING(255),
+        allowNull: true
+      },
       isActive: {
         type: Sequelize.BOOLEAN,
         defaultValue: true

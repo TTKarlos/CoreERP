@@ -13,6 +13,7 @@ module.exports = {
       lastName: 'User',
       role: 'Administrador',
       isActive: true,
+      image: null,
       token: null,
       createdAt: new Date(),
       updatedAt: new Date()
