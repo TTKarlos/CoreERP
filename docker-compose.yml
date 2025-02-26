@@ -1,0 +1,30 @@
+services:
+  mysql:
+    image: mysql:latest
+    container_name: erp-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: erp-root-password
+      MYSQL_USER: erp-user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: erp_wholesale_db
+    ports:
+      - "9001:3306"
+    volumes:
+      - erp-mysql-data:/var/lib/mysql
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: erp-phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: erp-root-password
+    ports:
+      - "9000:80"
+    depends_on:
+      - mysql
+
+volumes:
+  erp-mysql-data:
