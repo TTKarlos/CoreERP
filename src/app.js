@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const config = require('./config');
-const sequelize = require('./config/database');
+const sequelize = require('../src/config/database');
 const errorHandler = require('./middlewares/errorHandler');
 const repositoryIndex = require('./routes/index');
 
@@ -14,14 +14,17 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/api', repositoryIndex.getRoutes());
 
-
 app.use(errorHandler);
 
-sequelize.sync()
-    .then(() => console.log('Database synchronized'))
-    .catch(error => console.error('Error synchronizing database:', error));
+sequelize.authenticate()
+    .then(() => {
+        console.log('✅ Conexión a la base de datos exitosa');
+        return sequelize.sync();
+    })
+    .then(() => console.log('✅ Base de datos sincronizada'))
+    .catch(error => console.error('❌ Error al conectar la base de datos:', error));
 
 const PORT = config.app.port;
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
