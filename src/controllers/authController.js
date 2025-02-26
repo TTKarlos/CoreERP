@@ -19,6 +19,7 @@ const validateFields = (fields, data) => {
 };
 
 const authController = {
+    /*
     register: async (req, res, next) => {
         try {
             const { username, email, password, firstName, lastName } = req.body;
@@ -38,7 +39,7 @@ const authController = {
             next(error);
         }
     },
-
+    */
     login: async (req, res, next) => {
         try {
             const { email, password } = req.body;

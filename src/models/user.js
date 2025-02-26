@@ -107,4 +107,6 @@ User.prototype.clearToken = async function() {
     return await this.save();
 };
 
+
+
 module.exports = User;
