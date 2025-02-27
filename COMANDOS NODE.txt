@@ -1,5 +1,5 @@
 LANZAR SEEDERS
-npx sequelize-cli db:seed:all 
+npx sequelize-cli db:seed:all --debug
 QUITAR SEEDER LANZADOS
 npx sequelize-cli db:seed:undo
 LANZAR MIGRACIONES

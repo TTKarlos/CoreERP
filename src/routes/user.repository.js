@@ -1,6 +1,9 @@
 const express = require('express');
 const userController = require('../controllers/userController');
 const auth = require('../middlewares/auth');
+const validateRequest = require("../middlewares/validateRequest");
+const productoSchema = require("../validations/productoSchema");
+const {updateUserSchema, createUserSchema} = require("../validations/userSchema");
 
 class UserRepository {
     constructor() {
@@ -11,8 +14,8 @@ class UserRepository {
     setupRoutes() {
         this.router.get('/', auth, userController.getAll);
         this.router.get('/:id', auth, userController.getById);
-        this.router.post('/', auth, userController.create);
-        this.router.put('/:id', auth, userController.update);
+        this.router.post('/', auth, validateRequest(createUserSchema), userController.create);
+        this.router.put('/:id', validateRequest(updateUserSchema), auth, userController.update);
         this.router.delete('/:id', auth, userController.delete);
     }
 
