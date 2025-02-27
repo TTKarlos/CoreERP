@@ -1,6 +1,5 @@
 'use strict';
 
-const { DataTypes } = require("sequelize");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -23,17 +22,29 @@ module.exports = {
         type: Sequelize.STRING(255),
         allowNull: true,
       },
-      categoria: {
-        type: Sequelize.STRING(50),
+      categoriaId: {
+        type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'Categorias',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'RESTRICT',
       },
       precio: {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
-      proveedor: {
-        type: Sequelize.STRING(50),
+      proveedorId: {
+        type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'Proveedores',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'RESTRICT',
       },
       stock: {
         type: Sequelize.INTEGER,
@@ -51,7 +62,8 @@ module.exports = {
       },
     });
 
-    await queryInterface.addIndex("Productos", ["categoria"]);
+    await queryInterface.addIndex("Productos", ["categoriaId"]);
+    await queryInterface.addIndex("Productos", ["proveedorId"]);
   },
 
   async down(queryInterface, Sequelize) {

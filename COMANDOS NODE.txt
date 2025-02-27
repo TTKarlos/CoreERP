@@ -14,7 +14,7 @@ npx sequelize-cli seed:generate --name nombre_seeder
 CREAR MIGRACION
 npx sequelize-cli migration:generate --name nombre_migracion
 
-MOSTRAR ARBOL DE DIRECTORIO
+MOSTRAR ARBOL DE DIRECT
 tree .\src\ /F
 
 ENTRAR EN TERMINAR DE DOCKER PARA EJECUTAR MIGRACIONES Y SEEDERS

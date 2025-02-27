@@ -20,13 +20,21 @@ const Productos = sequelize.define("Productos", {
         type: DataTypes.STRING(50),
         allowNull: false,
     },
-    categoria: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
+    categoriaId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: "Categorias",
+            key: "id",
+        },
     },
-    proveedor: {
-        type: DataTypes.STRING(50),
+    proveedorId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+            model: "Proveedores",
+            key: "id",
+        },
     },
     precio: {
         type: DataTypes.INTEGER,
