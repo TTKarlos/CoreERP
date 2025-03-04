@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const User = require('../models/user');
 const config = require('../config');
 
 // Helper function to create a standardized response
