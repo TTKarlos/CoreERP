@@ -1,5 +1,5 @@
 const corsOptions = {
-    origin: ["http://localhost:3000", "https://api.coreerp.matriz.com.es"],
+    origin: ["http://localhost:3000", "https://api.coreerp.matriz.com.es", "http://api.coreerp.matriz.com.es"],
 
     // Métodos HTTP permitidos
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
