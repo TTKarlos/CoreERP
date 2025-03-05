@@ -1,16 +1,14 @@
 const Proveedor = require('../models/proveedores');
-const ProveedorSerializer = require('../serializers/ProveedorSerializer');
 const AppError = require("../utils/appError")
 const { Op } = require("sequelize")
 
 exports.getAll = async (req, res, next) => {
     try {
         const proveedores = await Proveedor.findAll()
-        const serializer = new ProveedorSerializer(proveedores);
         res.status(200).json({
             success: true,
             count: proveedores.length,
-            data: serializer,
+            data: proveedores,
             message: "Proveedores encontrados exitosamente!",
         })
     } catch (error) {
@@ -26,11 +24,10 @@ exports.getById = async (req, res, next) => {
         if (!proveedor) {
             return next(new AppError(`Proveedor with id ${id} not found`, 404))
         }
-        const serializer = new ProveedorSerializer(proveedor);
 
         res.status(200).json({
             success: true,
-            data: serializer,
+            data: proveedor,
             message: "Proveedor encontrado exitosamente!",
         })
     } catch (error) {

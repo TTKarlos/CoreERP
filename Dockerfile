@@ -16,5 +16,4 @@ COPY . .
 # Exponer el puerto en el que corre Express
 EXPOSE 3000
 
-# Comando por defecto para correr Nodemon en desarrollo
-CMD ["npm", "run", "dev"]
+

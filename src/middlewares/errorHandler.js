@@ -1,14 +1,24 @@
 const AppError = require("../utils/appError")
 
 module.exports = (err, req, res, next) => {
+    console.error(err)
+
     err.statusCode = err.statusCode || 500
     err.status = err.status || "error"
 
-    res.status(err.statusCode).json({
+    const isOperationalError = err instanceof AppError
+    const isDevelopment = process.env.NODE_ENV === "development"
+
+    const errorResponse = {
         status: err.status,
         message: err.message,
-        errors: err.errors,
-        stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
-    })
+        errors: err.errors || null,
+    }
+
+    if (isDevelopment && err.statusCode >= 500) {
+        errorResponse.stack = err.stack
+    }
+
+    res.status(err.statusCode).json(errorResponse)
 }
 

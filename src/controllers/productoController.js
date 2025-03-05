@@ -35,6 +35,7 @@ exports.getById = async (req, res, next) => {
     }
 }
 
+
 exports.create = async (req, res, next) => {
     try {
         const producto = await Productos.create(req.body)

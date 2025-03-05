@@ -19,3 +19,7 @@ tree .\src\ /F
 
 ENTRAR EN TERMINAR DE DOCKER PARA EJECUTAR MIGRACIONES Y SEEDERS
 docker exec -it erp-backend sh
+
+CREAR DCOCKER SIN CACHE
+docker-compose build --no-cache
+docker-compose up --force-recreate
