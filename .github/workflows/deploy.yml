@@ -1,4 +1,4 @@
-name: 🚀 Deploy por FTP y npm install
+name: 🚀 Deploy por FTP, borrar caché y npm install
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   ftp-deploy-and-install:
-    name: 📂 Subir archivos y ejecutar npm install
+    name: 📂 Subir archivos, borrar caché y ejecutar npm install
     runs-on: ubuntu-latest
 
     steps:
@@ -27,7 +27,16 @@ jobs:
             **/.github*
             **/node_modules/*
             **/*.md
+          dry-run: false
+
+      - name: 🧹 Borrar caché y ejecutar npm install
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASS }}
           script: |
             cd /CoreERP/Backend/
+            rm -rf node_modules
+            npm cache clean --force
             npm install
-          dry-run: false
