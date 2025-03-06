@@ -32,9 +32,10 @@ jobs:
       - name: 🧹 Borrar caché y ejecutar npm install
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.FTP_HOST }}
+          host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASS }}
+          port: ${{ secrets.SSH_PORT }}
           script: |
             cd /CoreERP/Backend/
             rm -rf node_modules
