@@ -37,7 +37,7 @@ jobs:
           password: ${{ secrets.SSH_PASS }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /CoreERP/Backend/
+            cd www/Karlos/CoreERP/Backend/
             rm -rf node_modules
             npm cache clean --force
             npm install
