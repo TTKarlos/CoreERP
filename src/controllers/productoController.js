@@ -1,21 +1,42 @@
 const Productos = require("../models/productos")
 const AppError = require("../utils/appError")
 
+
 exports.getAll = async (req, res, next) => {
     try {
-        const productos = await Productos.findAll()
+        const page = Number.parseInt(req.query.page) || 1
+        const limit = Number.parseInt(req.query.limit) || 10
+
+        const options = {
+            page: page,
+            paginate: limit,
+            order: [["id", "ASC"]],
+        }
+        const { docs, pages, total } = await Productos.paginate(options)
+
+        if (docs.length === 0 && total > 0) {
+            return next(new AppError("Página vacía. No hay más productos disponibles.", 404))
+        }
+
 
         res.status(200).json({
             success: true,
-            count: productos.length,
-            data: productos,
+            count: docs.length,
+            data: docs,
             message: "Productos encontrados exitosamente!",
+            pagination: {
+                totalItems: total,
+                totalPages: pages,
+                currentPage: page,
+                itemsPerPage: limit,
+                hasNextPage: page < pages,
+                hasPrevPage: page > 1,
+            },
         })
     } catch (error) {
         next(new AppError("Error fetching productos", 500))
     }
 }
-
 exports.getById = async (req, res, next) => {
     try {
         const { id } = req.params

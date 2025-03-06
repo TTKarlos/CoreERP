@@ -2,20 +2,44 @@ const Proveedor = require('../models/proveedores');
 const Producto = require('../models/productos');
 const AppError = require("../utils/appError")
 const { Op } = require("sequelize")
+const {Categoria, Productos} = require("../models");
 
 exports.getAll = async (req, res, next) => {
     try {
-        const proveedores = await Proveedor.findAll()
+        const page = Number.parseInt(req.query.page) || 1
+        const limit = Number.parseInt(req.query.limit) || 10
+
+        const options = {
+            page: page,
+            paginate: limit,
+            order: [["id", "ASC"]],
+        }
+
+        const { docs, pages, total } = await Proveedor.paginate(options)
+
+        if (docs.length === 0 && total > 0) {
+            return next(new AppError("Página vacía. No hay más proveedores disponibles.", 404))
+        }
+
         res.status(200).json({
             success: true,
-            count: proveedores.length,
-            data: proveedores,
+            count: docs.length,
+            data: docs,
             message: "Proveedores encontrados exitosamente!",
+            pagination: {
+                totalItems: total,
+                totalPages: pages,
+                currentPage: page,
+                itemsPerPage: limit,
+                hasNextPage: page < pages,
+                hasPrevPage: page > 1,
+            },
         })
     } catch (error) {
         next(new AppError("Error fetching proveedores", 500))
     }
 }
+
 
 exports.getById = async (req, res, next) => {
     try {
@@ -128,6 +152,56 @@ exports.delete = async (req, res, next) => {
         })
     } catch (error) {
         next(new AppError("Error deleting proveedor", 500))
+    }
+}
+
+exports.getProductosByProveedor = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const page = Number.parseInt(req.query.page) || 1
+        const limit = Number.parseInt(req.query.limit) || 10
+
+        const proveedor = await Proveedor.findByPk(id)
+        if (!proveedor) {
+            return next(new AppError(`Proveedor with id ${id} not found`, 404))
+        }
+
+        const options = {
+            page: page,
+            paginate: limit,
+            where: { proveedorId: id },
+            include: [
+                {
+                    model: Proveedor,
+                    as: "proveedor",
+                    attributes: ["id", "nombre"],
+                },
+            ],
+            order: [["id", "ASC"]],
+        }
+
+        const { docs, pages, total } = await Productos.paginate(options)
+
+        if (docs.length === 0 && total > 0) {
+            return next(new AppError("Página vacía. No hay más productos disponibles para este proveedor.", 404))
+        }
+
+        res.status(200).json({
+            success: true,
+            count: docs.length,
+            data: docs,
+            message: `Productos del proveedor ${proveedor.nombre} encontrados exitosamente!`,
+            pagination: {
+                totalItems: total,
+                totalPages: pages,
+                currentPage: page,
+                itemsPerPage: limit,
+                hasNextPage: page < pages,
+                hasPrevPage: page > 1,
+            },
+        })
+    } catch (error) {
+        next(new AppError("Error fetching productos por proveedor", 500))
     }
 }
 

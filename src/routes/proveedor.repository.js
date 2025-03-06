@@ -16,6 +16,7 @@ class ProveedorRepository {
         this.router.post("/", auth, validateRequest(proveedorSchema), proveedorController.create);
         this.router.put("/:id", auth, validateRequest(proveedorSchema), proveedorController.update);
         this.router.delete("/:id", auth, proveedorController.delete);
+        this.router.get("/:id/productos", auth, proveedorController.getProductosByProveedor);
     }
 
     getRoutes() {

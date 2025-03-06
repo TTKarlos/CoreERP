@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize")
 const sequelize = require("../config/database")
+const sequelizePaginate = require("sequelize-paginate");
 
 const Proveedores = sequelize.define(
     "Proveedores",
@@ -46,6 +47,8 @@ Proveedores.prototype.toJSON = function () {
     delete values.updatedAt
     return values
 }
+
+sequelizePaginate.paginate(Proveedores)
 
 module.exports = Proveedores
 
