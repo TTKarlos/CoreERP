@@ -1,6 +1,6 @@
-const Productos = require("./Productos")
-const Proveedores = require("./Proveedores")
-const Categoria = require("./Categoria")
+const Productos = require("./productos")
+const Proveedores = require("./proveedores")
+const Categoria = require("./categoria")
 
 Productos.belongsTo(Proveedores, { foreignKey: "proveedorId", as: "proveedor" })
 Proveedores.hasMany(Productos, { foreignKey: "proveedorId", as: "productos" })
