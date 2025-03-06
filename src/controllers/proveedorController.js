@@ -2,7 +2,6 @@ const Proveedor = require('../models/proveedores');
 const Producto = require('../models/productos');
 const AppError = require("../utils/appError")
 const { Op } = require("sequelize")
-const {Categoria, Productos} = require("../models");
 
 exports.getAll = async (req, res, next) => {
     try {
