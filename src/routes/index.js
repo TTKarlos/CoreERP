@@ -3,6 +3,7 @@ const authRepository = require("./auth.repository")
 const userRepository = require("./user.repository")
 const productoRepository = require("./producto.repository")
 const proveedorRepository = require("./proveedor.repository")
+const categoriaRepository = require("./categoria.repository")
 
 class RepositoryIndex {
     constructor() {
@@ -15,6 +16,7 @@ class RepositoryIndex {
         this.router.use("/users", userRepository.getRoutes())
         this.router.use("/productos", productoRepository.getRoutes())
         this.router.use("/proveedores", proveedorRepository.getRoutes())
+        this.router.use("/categorias",categoriaRepository.getRoutes())
     }
 
     getRoutes() {

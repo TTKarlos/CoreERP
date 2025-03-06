@@ -1,4 +1,5 @@
 const Proveedor = require('../models/proveedores');
+const Producto = require('../models/productos');
 const AppError = require("../utils/appError")
 const { Op } = require("sequelize")
 
@@ -74,7 +75,6 @@ exports.update = async (req, res, next) => {
             return next(new AppError(`Proveedor with id ${id} not found`, 404))
         }
 
-        // Verificar si ya existe otro proveedor con el mismo nombre o email
         if (nombre || email) {
             const existingProveedor = await Proveedor.findOne({
                 where: {
@@ -112,12 +112,14 @@ exports.delete = async (req, res, next) => {
             return next(new AppError(`Proveedor with id ${id} not found`, 404))
         }
 
-        // Verificar si el proveedor tiene productos asociados
-        const productos = await proveedor.getProductos()
+        const productos = await Producto.findAll({
+                where: {
+                    proveedorId: id,
+                },
+            })
         if (productos && productos.length > 0) {
             return next(new AppError("No se puede eliminar el proveedor porque tiene productos asociados", 400))
         }
-
         await proveedor.destroy()
 
         res.status(200).json({

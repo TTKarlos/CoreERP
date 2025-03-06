@@ -11,8 +11,8 @@ class ProductoRepository {
     }
 
     setupRoutes() {
-        this.router.get('/', productoController.getAll);
-        this.router.get('/:id', productoController.getById);
+        this.router.get('/', auth,productoController.getAll);
+        this.router.get('/:id', auth,productoController.getById);
         this.router.post('/', auth, validateRequest(productoSchema), productoController.create);
         this.router.put('/:id', auth, validateRequest(productoSchema), productoController.update);
         this.router.delete('/:id', auth, productoController.delete);
