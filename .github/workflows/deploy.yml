@@ -1,4 +1,4 @@
-name: 🚀 Deploy por FTP
+name: 🚀 Deploy por FTP y npm install
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - main  # Se ejecuta cuando hay cambios en main
 
 jobs:
-  ftp-deploy:
-    name: 📂 Subir archivos al hosting
+  ftp-deploy-and-install:
+    name: 📂 Subir archivos y ejecutar npm install
     runs-on: ubuntu-latest
 
     steps:
@@ -27,4 +27,7 @@ jobs:
             **/.github*
             **/node_modules/*
             **/*.md
+          script: |
+            cd /CoreERP/Backend/
+            npm install
           dry-run: false
