@@ -15,7 +15,7 @@ exports.getAll = async (req, res, next) => {
         const { docs, pages, total } = await Productos.paginate(options)
 
         if (docs.length === 0 && total > 0) {
-            return next(new AppError("Página vacía. No hay más productos disponibles. FUNCIONA", 404))
+            return next(new AppError("Página vacía. No hay más productos disponibles.", 404))
         }
 
 
